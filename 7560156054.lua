@@ -445,9 +445,9 @@ end)
 coroutine.wrap(function ()
 	while true do
         if user_config.autoclicker then
-            RS.Clickerr:InvokeServer({["manual"] = {["1000000"] = 100}});
+            RS.Events.Client.emitClicks:FireServer();
         end
-        wait(0.5)
+        wait(0.1)
     end
 end)();
 
