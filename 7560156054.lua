@@ -16,6 +16,7 @@ local gui_state = {
 };
 
 local user_config = {
+	["autoclicker"] = false,
 	["fastautoclicker"] = false,
 	["slowautoclicker"] = false,
 	["autorebirth"] = false,
@@ -155,6 +156,10 @@ local main_button = categories.main_button;
 
 components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
+
+components.createOptionButton(options, "autoclicker_button", "fast auto clicker", "bool");
+local autoclicker_button = options.autoclicker_button;
+autoclicker_button.Visible = false;
 
 components.createOptionButton(options, "fastautoclicker_button", "fast auto clicker", "bool");
 local fastautoclicker_button = options.fastautoclicker_button;
@@ -312,6 +317,36 @@ player_button.MouseButton1Click:Connect(function ()
 	loadCategory("player");
 	gui_state.current_category = "player";
 	print(gui_state.current_category);
+end)
+
+-- Autoclicker Button
+
+autoclicker_button.MouseEnter:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(autoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
+		TS:Create(autoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+	end
+end)
+
+autoclicker_button.MouseLeave:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(autoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(autoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+	end
+end)
+
+autoclicker_button.MouseButton1Click:Connect(function ()
+	if gui_state.current_category == "main" then
+		if user_config.autoclicker then
+			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+			autoclicker_button.button_status.Text = "off";
+			user_config.autoclicker = false;
+		else
+			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
+			autoclicker_button.button_status.Text = "on";
+			user_config.autoclicker = true;
+		end
+	end
 end)
 
 -- Fastautoclicker Button
@@ -486,6 +521,10 @@ coroutine.wrap(function ()
         if user_config.fastautoclicker then
 	        RS.Bindable.Client.autoClickerActivate:Fire(1);
         end
+	if user_config.autoclicker then
+		RS.Bindable.Client.eClick:Fire("down");
+		RS.Bindable.Client.eClick:Fire("up");
+	end
         wait(0.05)
     end
 end)();
