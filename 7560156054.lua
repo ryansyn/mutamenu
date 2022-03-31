@@ -446,7 +446,7 @@ end)
 coroutine.wrap(function ()
 	while true do
         if user_config.autoclicker then
-            VU:TypeKey(Enum.KeyCode.E);
+            RS.Events.Client.emitClicks:Fire();
         end
         wait(0.1)
     end
