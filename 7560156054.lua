@@ -340,6 +340,7 @@ autoclicker_button.MouseButton1Click:Connect(function ()
 		if user_config.autoclicker then
 			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
 			autoclicker_button.button_status.Text = "off";
+			RS.Bindable.Client.eClick:Fire("up");
 			user_config.autoclicker = false;
 		else
 			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
