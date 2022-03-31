@@ -185,7 +185,7 @@ screen_gui.Enabled = false;
 
 local category_buttons = {
 	["main"] = {
-		fastautoclicker_button, slowautoclicker_button, autorebirth_button, autoclaimquests_button
+		autoclicker_button, fastautoclicker_button, slowautoclicker_button, autorebirth_button, autoclaimquests_button
 	},
 	
 	["player"] = {
