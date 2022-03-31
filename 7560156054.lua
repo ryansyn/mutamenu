@@ -16,6 +16,7 @@ local gui_state = {
 };
 
 local user_config = {
+	["fastautoclicker"] = false,
 	["slowautoclicker"] = false,
 	["autorebirth"] = false,
 	["autoclaimquests"] = false
@@ -155,6 +156,10 @@ local main_button = categories.main_button;
 components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
 
+components.createOptionButton(options, "fastautoclicker_button", "fast auto clicker", "bool");
+local fastautoclicker_button = options.fastautoclicker_button;
+fastautoclicker_button.Visible = false;
+
 components.createOptionButton(options, "slowautoclicker_button", "slow auto clicker", "bool");
 local slowautoclicker_button = options.slowautoclicker_button;
 slowautoclicker_button.Visible = false;
@@ -175,7 +180,7 @@ screen_gui.Enabled = false;
 
 local category_buttons = {
 	["main"] = {
-		slowautoclicker_button, autorebirth_button, autoclaimquests_button
+		fastautoclicker_button, slowautoclicker_button, autorebirth_button, autoclaimquests_button
 	},
 	
 	["player"] = {
@@ -309,7 +314,38 @@ player_button.MouseButton1Click:Connect(function ()
 	print(gui_state.current_category);
 end)
 
--- Autoclicker Button
+-- Fastautoclicker Button
+fastautoclicker_button.MouseEnter:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(fastautoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
+		TS:Create(fastautoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+	end
+end)
+
+fastautoclicker_button.MouseLeave:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(fastautoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(fastautoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+	end
+end)
+
+fastautoclicker_button.MouseButton1Click:Connect(function ()
+	if gui_state.current_category == "main" then
+		if user_config.fastautoclicker then
+			TS:Create(fastautoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+			fastautoclicker_button.button_status.Text = "off";
+			RS.Bindable.Client.autoClickerToggled:Fire(false);
+			user_config.fastautoclicker = false;
+		else
+			TS:Create(fastautoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
+			fastautoclicker_button.button_status.Text = "on";
+			RS.Bindable.Client.autoClickerToggled:Fire(true);
+			user_config.fastautoclicker = true;
+		end
+	end
+end)
+
+-- Slowautoclicker Button
 slowautoclicker_button.MouseEnter:Connect(function ()
 	if gui_state.current_category == "main" then
 		TS:Create(slowautoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
@@ -444,6 +480,15 @@ UIS.InputBegan:Connect(function (input, unsuccessful)
 		end
 	end
 end)
+
+coroutine.wrap(function ()
+	while true do
+        if user_config.fastautoclicker then
+	        RS.Bindable.Client.autoClickerActivate:Fire(1);
+        end
+        wait(0.05)
+    end
+end)();
 
 coroutine.wrap(function ()
 	while true do
