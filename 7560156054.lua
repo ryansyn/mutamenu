@@ -16,7 +16,7 @@ local gui_state = {
 };
 
 local user_config = {
-	["autoclicker"] = false,
+	["slowautoclicker"] = false,
 	["autorebirth"] = false,
 	["autoclaimquests"] = false
 };
@@ -155,9 +155,9 @@ local main_button = categories.main_button;
 components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
 
-components.createOptionButton(options, "autoclicker_button", "auto clicker", "bool");
-local autoclicker_button = options.autoclicker_button;
-autoclicker_button.Visible = false;
+components.createOptionButton(options, "slowautoclicker_button", "slow auto clicker", "bool");
+local slowautoclicker_button = options.slowautoclicker_button;
+slowautoclicker_button.Visible = false;
 
 components.createOptionButton(options, "autorebirth_button", "auto rebirth", "bool");
 local autorebirth_button = options.autorebirth_button;
@@ -175,7 +175,7 @@ screen_gui.Enabled = false;
 
 local category_buttons = {
 	["main"] = {
-		autoclicker_button, autorebirth_button, autoclaimquests_button
+		slowautoclicker_button, autorebirth_button, autoclaimquests_button
 	},
 	
 	["player"] = {
@@ -310,30 +310,32 @@ player_button.MouseButton1Click:Connect(function ()
 end)
 
 -- Autoclicker Button
-autoclicker_button.MouseEnter:Connect(function ()
+slowautoclicker_button.MouseEnter:Connect(function ()
 	if gui_state.current_category == "main" then
-		TS:Create(autoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
-		TS:Create(autoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+		TS:Create(slowautoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
+		TS:Create(slowautoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
 	end
 end)
 
-autoclicker_button.MouseLeave:Connect(function ()
+slowautoclicker_button.MouseLeave:Connect(function ()
 	if gui_state.current_category == "main" then
-		TS:Create(autoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
-		TS:Create(autoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+		TS:Create(slowautoclicker_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(slowautoclicker_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
 	end
 end)
 
-autoclicker_button.MouseButton1Click:Connect(function ()
+slowautoclicker_button.MouseButton1Click:Connect(function ()
 	if gui_state.current_category == "main" then
-		if user_config.autoclicker then
-			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
-			autoclicker_button.button_status.Text = "off";
-			user_config.autoclicker = false;
+		if user_config.slowautoclicker then
+			TS:Create(slowautoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+			slowautoclicker_button.button_status.Text = "off";
+			RS.Bindable.Client.slowAutoClickerToggled:Fire(false);
+			user_config.slowautoclicker = false;
 		else
-			TS:Create(autoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
-			autoclicker_button.button_status.Text = "on";
-			user_config.autoclicker = true;
+			TS:Create(slowautoclicker_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
+			slowautoclicker_button.button_status.Text = "on";
+			RS.Bindable.Client.slowAutoClickerToggled:Fire(true);
+			user_config.slowautoclicker = true;
 		end
 	end
 end)
@@ -445,8 +447,8 @@ end)
 
 coroutine.wrap(function ()
 	while true do
-        if user_config.autoclicker then
-            RS.Events.Client.emitClicks:Fire();
+        if user_config.slowautoclicker then
+	        RS.Bindable.Client.slowAutoClickerActivate:Fire(1);
         end
         wait(0.1)
     end
