@@ -16,7 +16,8 @@ local gui_state = {
 
 local user_config = {
 	["autoclicker"] = false,
-	["autorebirth"] = false
+	["autorebirth"] = false,
+	["autoclaimquests"] = false
 };
 
 local previous_guis = {};
@@ -161,6 +162,10 @@ components.createOptionButton(options, "autorebirth_button", "auto rebirth", "bo
 local autorebirth_button = options.autorebirth_button;
 autorebirth_button.Visible = false;
 
+components.createOptionButton(options, "autoclaimquests_button", "auto claim quests", "bool");
+local autoclaimquests_button = options.autoclaimquests_button;
+autoclaimquests_button.Visible = false;
+
 components.createOptionButton(options, "reset_button", "reset character", "click");
 local reset_button = options.reset_button;
 reset_button.Visible = false;
@@ -169,7 +174,7 @@ screen_gui.Enabled = false;
 
 local category_buttons = {
 	["main"] = {
-		autoclicker_button, autorebirth_button
+		autoclicker_button, autorebirth_button, autoclaimquests_button
 	},
 	
 	["player"] = {
@@ -334,13 +339,17 @@ end)
 
 -- Autorebirth Button
 autorebirth_button.MouseEnter:Connect(function ()
-	TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
-	TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+	if gui_state.current_category == "main" then
+		TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
+		TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+	end
 end)
 
 autorebirth_button.MouseLeave:Connect(function ()
-	TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
-	TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+	if gui_state.current_category == "main" then
+		TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+	end
 end)
 
 autorebirth_button.MouseButton1Click:Connect(function ()
@@ -353,6 +362,35 @@ autorebirth_button.MouseButton1Click:Connect(function ()
 			TS:Create(autorebirth_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
 			autorebirth_button.button_status.Text = "on";
 			user_config.autorebirth = true;
+		end
+	end
+end)
+
+-- Autoclaimquests Button
+autoclaimquests_button.MouseEnter:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(autoclaimquests_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.4 }):Play();
+		TS:Create(autoclaimquests_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(255/255, 255/255, 255/255) }):Play();
+	end
+end)
+
+autoclaimquests_button.MouseLeave:Connect(function ()
+	if gui_state.current_category == "main" then
+		TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+	end
+end)
+
+autoclaimquests_button.MouseButton1Click:Connect(function ()
+	if gui_state.current_category == "main" then
+		if user_config.autoclaimquests then
+			TS:Create(autoclaimquests_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+			autoclaimquests_button.button_status.Text = "off";
+			user_config.autoclaimquests = false;
+		else
+			TS:Create(autoclaimquests_button.button_status, TweenInfo.new(0.2), { TextColor3 = Color3.new(127/255, 200/255, 118/255) }):Play();
+			autoclaimquests_button.button_status.Text = "on";
+			user_config.autoclaimquests = true;
 		end
 	end
 end)
@@ -418,6 +456,16 @@ coroutine.wrap(function ()
         if user_config.autorebirth then
             RS.Events.Client.requestRebirth:FireServer(1, false, false);
         end
-        wait(0.5)
+		if user_config.autoclaimquests then
+			RS.Events.Client.claimQuest:FireServer("A");
+			RS.Events.Client.claimQuest:FireServer("B");
+			RS.Events.Client.claimQuest:FireServer("C");
+			RS.Events.Client.claimQuest:FireServer("D");
+			RS.Events.Client.claimQuest:FireServer("E");
+			RS.Events.Client.claimQuest:FireServer("F");
+			RS.Events.Client.claimQuest:FireServer("G");
+			RS.Events.Client.claimQuest:FireServer("H");
+		end
+        wait(0.25)
     end
 end)();
