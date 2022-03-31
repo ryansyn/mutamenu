@@ -4,6 +4,7 @@ local RS = game:GetService("ReplicatedStorage");
 local PS = game:GetService("Players");
 local LS = game:GetService("Lighting");
 local TS = game:GetService("TweenService");
+local VU = game:GetService("VirtualUser");
 
 local player = PS.LocalPlayer;
 
@@ -445,7 +446,7 @@ end)
 coroutine.wrap(function ()
 	while true do
         if user_config.autoclicker then
-            RS.Events.Client.emitClicks:FireServer();
+            VU:TypeKey(Enum.KeyCode.E);
         end
         wait(0.1)
     end
