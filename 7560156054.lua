@@ -157,7 +157,7 @@ local main_button = categories.main_button;
 components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
 
-components.createOptionButton(options, "autoclicker_button", "fast auto clicker", "bool");
+components.createOptionButton(options, "autoclicker_button", "auto clicker", "bool");
 local autoclicker_button = options.autoclicker_button;
 autoclicker_button.Visible = false;
 
