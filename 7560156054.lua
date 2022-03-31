@@ -376,8 +376,8 @@ end)
 
 autoclaimquests_button.MouseLeave:Connect(function ()
 	if gui_state.current_category == "main" then
-		TS:Create(autorebirth_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
-		TS:Create(autorebirth_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
+		TS:Create(autoclaimquests_button, TweenInfo.new(0.2), { BackgroundTransparency = 0.6 }):Play();
+		TS:Create(autoclaimquests_button.button_text, TweenInfo.new(0.2), { TextColor3 = Color3.new(200/255, 200/255, 200/255) }):Play();
 	end
 end)
 
