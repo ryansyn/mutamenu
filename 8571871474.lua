@@ -375,24 +375,26 @@ end)
 
 coroutine.wrap(function ()
 	while true do
-		for _,v in ipairs(game.Players:GetPlayers()) do
-      			if v.Name == PS.LocalPlayer.Name or not v.Character then continue end;
+		if user_config.loopautokill then
+			for _,v in ipairs(game.Players:GetPlayers()) do
+				if v.Name == PS.LocalPlayer.Name or not v.Character then continue end;
 
-      			local args = {
-        			[1] = PS.LocalPlayer.Character.Head,
-        			[2] = PS.LocalPlayer,
-        			[3] = v.Character.Humanoid,
-        			[4] = v.Character.HumanoidRootPart,
-        			[5] = 100,
-        			[6] = {
-          				[1] = 0,
-          				[2] = 0,
-          				[3] = true
-        			}
-      			}
+				local args = {
+					[1] = PS.LocalPlayer.Character.Head,
+					[2] = PS.LocalPlayer,
+					[3] = v.Character.Humanoid,
+					[4] = v.Character.HumanoidRootPart,
+					[5] = 100,
+					[6] = {
+						[1] = 0,
+						[2] = 0,
+						[3] = true
+					}
+				}
 
-      			RS.InflictTarget:FireServer(unpack(args))
-    		end
+				RS.InflictTarget:FireServer(unpack(args))
+			end
+		end
 
     		wait(0.1)
   	end
