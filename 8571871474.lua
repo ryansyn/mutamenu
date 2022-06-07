@@ -151,7 +151,7 @@ components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
 
 components.createOptionButton(options, "loppautokill_button", "loop auto kill", "bool");
-local loopautokill_button = options.loopautokill_button;
+local loopautokill_button = options.loppautokill_button;
 loopautokill_button.Visible = false;
 
 components.createOptionButton(options, "reset_button", "reset character", "click");
