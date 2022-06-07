@@ -4,7 +4,6 @@ local RS = game:GetService("ReplicatedStorage");
 local PS = game:GetService("Players");
 local LS = game:GetService("Lighting");
 local TS = game:GetService("TweenService");
-local VU = game:GetService("VirtualUser");
 
 local player = PS.LocalPlayer;
 
@@ -123,7 +122,7 @@ game_name.Font = Enum.Font.GothamBold;
 game_name.TextColor3 = Color3.new(200/255, 200/255, 200/255);
 game_name.TextSize = 14;
 game_name.TextXAlignment = Enum.TextXAlignment.Right;
-game_name.Text = "clicker simulator";
+game_name.Text = "gun fighting tycoon";
 local divider = Instance.new("Frame", menu);
 divider.BackgroundColor3 = Color3.new(40/255, 40/255, 40/255);
 divider.BackgroundTransparency = 0.4;
@@ -151,7 +150,7 @@ local main_button = categories.main_button;
 components.createCategoryButton(categories, "player_button", "player");
 local player_button = categories.player_button;
 
-components.createOptionButton(options, "loppautokill_button", "auto clicker", "bool");
+components.createOptionButton(options, "loppautokill_button", "loop auto kill", "bool");
 local loopautokill_button = options.loopautokill_button;
 autoclicker_button.Visible = false;
 
@@ -163,7 +162,7 @@ screen_gui.Enabled = false;
 
 local category_buttons = {
 	["main"] = {
-		autoclicker_button, fastautoclicker_button, slowautoclicker_button, autorebirth_button, autoclaimquests_button
+		loopautokill_button
 	},
 	
 	["player"] = {
