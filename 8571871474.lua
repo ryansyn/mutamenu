@@ -376,25 +376,25 @@ end)
 
 coroutine.wrap(function ()
 	while true do
-    for _,v in ipairs(game.Players:GetPlayers()) do
-      if v.Name == game.Players.LocalPlayer.Name or not v.Character:FindFirstChild("Humanoid") then continue end;
+		for _,v in ipairs(game.Players:GetPlayers()) do
+      			if v.Name == game.Players.LocalPlayer.Name or not v.Character:FindFirstChild("Humanoid") then continue end;
 
-      local args = {
-        [1] = game:GetService("Players").kunostaken.Character.Head,
-        [2] = game:GetService("Players").kunostaken,
-        [3] = v.Character.Humanoid,
-        [4] = v.Character.HumanoidRootPart,
-        [5] = 100,
-        [6] = {
-          [1] = 0,
-          [2] = 0,
-          [3] = true
-        }
-      }
+      			local args = {
+        			[1] = game:GetService("Players").kunostaken.Character.Head,
+        			[2] = game:GetService("Players").kunostaken,
+        			[3] = v.Character.Humanoid,
+        			[4] = v.Character.HumanoidRootPart,
+        			[5] = 100,
+        			[6] = {
+          				[1] = 0,
+          				[2] = 0,
+          				[3] = true
+        			}
+      			}
 
-      game:GetService("ReplicatedStorage").InflictTarget:FireServer(unpack(args))
-    end
-      
-    wait(0.1)
-  end
+      			game:GetService("ReplicatedStorage").InflictTarget:FireServer(unpack(args))
+    		end
+
+    		wait(0.1)
+  	end
 end)();
