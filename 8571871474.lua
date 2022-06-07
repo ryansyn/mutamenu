@@ -377,7 +377,7 @@ coroutine.wrap(function ()
 	while true do
 		if user_config.loopautokill then
 			for _,v in ipairs(game.Players:GetPlayers()) do
-				if v == nil or v.Name == PS.LocalPlayer.Name or not v.Character or not v.Character:FindFirstChild("Humanoid") then return end;
+				if v.Name == PS.LocalPlayer.Name or not v.Character or not v.Character:WaitForChild("Humanoid") then return end;
 
 				local args = {
 					[1] = PS.LocalPlayer.Character.Head,
